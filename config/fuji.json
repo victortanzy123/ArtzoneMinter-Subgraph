@@ -1,0 +1,5 @@
+{
+  "network": "fuji",
+  "PendleYieldContractFactory": "0x726dB0396bA75EFeb9362400E6067b7a1D609a19",
+  "PendleYieldContractFactory_startBlock": 13523812
+}

@@ -1,0 +1,25 @@
+{
+  "name": "niftyzone-subgraph",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "prepare:main": "yarn mustache ./config/${NETWORK}.json subgraph.template.yaml subgraph.yaml && yarn mustache ./config/${NETWORK}.json ./src/constants.template.ts ./src/constants.ts && rm -rf generated && yarn codegen",
+    "prepare:kovan": "NETWORK=kovan yarn prepare:main",
+    "prepare:fuji": "NETWORK=fuji yarn prepare:main",
+    "prepare:mumbai": "NETWORK=mumbai yarn prepare:main",
+    "deploy:kovan": "yarn prepare:kovan && yarn deploy",
+    "deploy:fuji": "yarn prepare:fuji && graph deploy --product hosted-service victortanzy123/niftyzone-subgraph-fuji",
+    "deploy:mumbai": "yarn prepare:mumbai && yarn deploy",
+    "deploy": "graph deploy --product hosted-service victortanzy123/niftyzone-subgraph --deploy-key $NIFTYZONE_SUBGRAPH_ACCESS_KEY",
+    "create-local": "graph create --node http://127.0.0.1:8020/ niftyzone/niftyzone-subgraph",
+    "remove-local": "graph remove --node http://127.0.0.1:8020/ niftyzone/niftyzone-subgraph",
+    "deploy-local": "graph deploy --node http://127.0.0.1:8020/ --ipfs http://127.0.0.1:5001 niftyzone/niftyzone-subgraph"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.33.0",
+    "@graphprotocol/graph-ts": "^0.27.0",
+    "@types/node": "^18.11.9",
+    "mustache": "^3.1.0"
+  }
+}

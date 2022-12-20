@@ -1,0 +1,69 @@
+enum TokenType {
+  UNKNOWN
+  NATIVE
+  ERC20
+  ERC721
+  ERC1155
+}
+
+# Niftyzone Token created on platform
+type ArtzoneToken @entity {
+  id: ID!
+  token: Token!
+  name: String
+  image: String
+  artist: String
+  timestampCreatedAt: BigInt!
+  description: String
+  externalUrl: String
+  totalSupply: BigInt!
+  totalMaxSupply: BigInt!
+  secondaryRoyalties: BigInt!
+  royaltiesReceiver: String!
+  syncingIndex: BigInt!
+}
+
+# Token Entity for both marketplace transaction & Token created from NiftyzoneMinter
+type Token @entity {
+  id: ID!
+  type: TokenType!
+  name: String!
+  symbol: String!
+  tokenUri: String!
+  syncingIndex: BigInt!
+}
+
+# User-Token entity for balances of nft tokens (both ERC721 & ERC1155)
+type UserToken @entity {
+  id: ID!
+  user: User!
+  token: Token!
+  totalSent: BigInt!
+  totalReceived: BigInt!
+  balance: BigInt!
+  syncingIndex: BigInt!
+}
+
+type User @entity {
+  id: ID!
+  syncingIndex: BigInt!
+}
+
+# Handle both TransferSingle and TransferBatch
+type Transfer @entity {
+  id: ID!
+  hash: String!
+  token: Token!
+  from: User!
+  to: User!
+  value: BigInt!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  syncingIndex: BigInt!
+}
+
+# Miscellaneous Syncing Index
+type Bundle @entity {
+  id: ID!
+  syncingIndex: BigInt!
+}

@@ -1,0 +1,12 @@
+node_modules
+build
+generated
+data
+
+.env
+
+subgraph.yaml
+
+.vscode/
+
+./src/utils/constants.ts
