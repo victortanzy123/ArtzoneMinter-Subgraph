@@ -1,0 +1,39 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
+dataSources:
+  - kind: ethereum/contract
+    name: ArtzoneMinter
+    network: "{ArtzoneMinter_Network}"
+    source:
+      address: "{ArtzoneMinter_Contract_Address}"
+      startBlock: "{ArtzoneMinter_StartBlock}"
+      abi: ArtzoneMinter
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ArtzoneToken
+        - Token
+        - UserToken
+        - Transfer
+      abis:
+        - name: ArtzoneMinter
+          file: ./abis/ArtzoneMinter.json
+        - name: ERC721
+          file: ./abis/ERC721.json
+        - name: ERC1155
+          file: ./abis/ERC1155.json
+      eventHandlers:
+        - event: TokenInitialisation(indexed uint256,uint256,uint256,address,string)
+          handler: handleTokenInitialisation
+        - event: TokenMint(indexed uint256,uint256,address)
+          handler: handleTokenMint
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+      file: ./src/mappings/ArtzoneMinter.ts
